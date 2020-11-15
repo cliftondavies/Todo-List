@@ -1,30 +1,10 @@
-// view all projects on homepage(title duedate)
-
-// add todo to the ui(title, description, dueDate, priority, category)
-
-//remove todo from the ui
-
-//edit single todo(title, description, dueDate, priority, category)
-
-//show single todo(title, description, dueDate, priority, category)
-
-// create new projects category
-
-// remove project
-
-//edit project
-
-
-
-
-
-// render default project with the whole list in storage
+// render default project with all the todos in storage
 
 // render projects and todos by category
 
-// create new projects category
+// create a new project category
 
-// create new todo
+// create a new todo
 
 // expand todo
 
@@ -36,6 +16,8 @@
 
 // view project form
 
-// delete project
-
 // delete todo
+
+// choose which projects a todo goes into (implement at creation of todo or after)
+
+// delete project (nice to have)

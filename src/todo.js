@@ -15,17 +15,17 @@ const Todo = class {
     return Todo.numberOfTodos++;
   }
 
-  // toggleCompleteStatus(){}
-  const toggleStatus = () => {
+  // set todo as complete (here or in storage)
+  toggleStatus() {
     // retrieve whole list
     // find todo project category
     // find the todo
-  };
+  }
 
-  // changePriority(){}
-  const changePriority = () => {
+  // change todo priority (here or in storage)
+  changePriority() {
     // retrieve whole list
     // find todo project category
     // find the todo
-  };
+  }
 };

@@ -1,4 +1,4 @@
-// retrieve todo list (maybe pass a particular category)
+// retrieve todo list (either all the todos or just the todos in a particular project category)
 
 // save project
 
@@ -16,9 +16,9 @@
 //   localStorage.setItem('', '')
 // }
 
-// remove todo from the storage
+// remove todo from a project list (implement here or in project class)
 
-// remove project
+// remove a project from the storage (nice to have)
 
 const todolist = [
   {

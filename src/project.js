@@ -1,5 +1,5 @@
 const Project = class {
-  constructor(projectName = 'default') {
+  constructor(projectName = 'General') {
     this.projectName = projectName;
     this.list = [];
   }
@@ -14,4 +14,6 @@ const Project = class {
   static addCategory(project) {
     Project.categories.push(project.projectName);
   }
+
+  // remove a todo from a project list (implement here or in storage class)
 };
