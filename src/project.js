@@ -7,13 +7,18 @@ const Project = class {
   static categories = [];
 
   addTodoToProject(todo) {
-    return this.list.push(todo);
+    this.list.push(todo);
   }
 
   // add to current list of categories (optional)
   static addCategory(project) {
-    Project.categories.push(project.projectName);
+    this.categories.push(project.projectName);
   }
 
   // remove a todo from a project list (implement here or in storage class)
+    // retrieve entire storage
+    // find project that todo belongs to by project name
+    // find todo
+    // remove todo
+    // save back to storage
 };
