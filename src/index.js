@@ -1,6 +1,6 @@
 import './assets/css/style.css';
-import content from './DOM';
+import content from './content';
 
-content().mainPage();
+content().staticPage();
 content().todoForm();
 content().projectForm();
