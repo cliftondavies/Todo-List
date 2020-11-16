@@ -1,23 +1,64 @@
-// render default project with all the todos in storage
+import Storage from './storage';
+import content from './content';
 
-// render projects and todos by category
+const UI = class {
+  // render default project with all the todos in storage
+  // render projects and todos by category
+  static render() {
+    const list = Storage.retrieve();
 
-// create a new project category
+    for (let project of list) {
+      content.createProjectCard(project);
 
-// create a new todo
+      if (project.list.length > 0) {
+        content.createTodosWrapper(project.projectName);
 
-// expand todo
+        for (let todo of project.list) {
+          content.collapsedTodoCard(todo);
+        }
+      }
+    }
 
-// set todo as complete
+  }
 
-// change priority
+  // view project form
+  static viewProjectForm() {
+    content.projectForm().classList.toggle('show-project-form-class');
+  }
 
-// view todo form
+  // view todo form
+  static viewTodoForm() {
+    content.todoForm().classList.toggle('show-todo-form-class');
+  }
 
-// view project form
+  // create a new project category
+  static createProject(event) {
+    const author = document.getElementById('author').value;
+    const title = document.querySelector('#title').value;
+    const pages = document.getElementById('pages').value;
+    const status = document.querySelector('input[name="status"]:checked').value;
+    const id = document.querySelector('#id').value;
 
-// delete todo
+    const project = new Project(projectName);
 
-// choose which projects a todo goes into (implement at creation of todo or after)
+    content.createProjectCard(project);
+    Storage.save(project);
+    event.preventDefault();
+  }
 
-// delete project (nice to have)
+  // create a new todo
+
+  // expand todo
+
+  // set todo as complete
+
+  // change priority
+
+
+
+  // delete todo
+
+  // choose which projects a todo goes into (implement at creation of todo or after)
+
+  // delete project (nice to have)
+}
