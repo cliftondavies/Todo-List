@@ -1,18 +1,18 @@
 const Todo = class {
-  constructor(title, description, dueDate, priority, category, id = 0) {
+  constructor(title, description, dueDate, priority, category) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.category = category;
     this.completed = false;
-    this.id = id;
+    this.id = Todo.generateId();
   }
 
   static numberOfTodos = 0
 
-  static incrementId = () => {
-    return Todo.numberOfTodos++;
+  static generateId() {
+    return Todo.numberOfTodos + 1;
   }
 
   // set todo as complete (here or in storage)
@@ -29,3 +29,5 @@ const Todo = class {
     // find the todo
   }
 };
+
+export { Todo as default };
