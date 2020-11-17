@@ -6,7 +6,7 @@ const Project = class {
 
   static categories = [];
 
-  addTodoToProject(todo) {
+  addTodo(todo) {
     this.list.push(todo);
   }
 
@@ -22,3 +22,5 @@ const Project = class {
     // remove todo
     // save back to storage
 };
+
+export { Project as default };
