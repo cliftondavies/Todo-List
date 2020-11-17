@@ -30,7 +30,7 @@ const content = () => {
 
   const projectForm = () => {
     const formWrapper = createHTMLTag('div', 'project-form-wrapper-hidden');
-    const projectForm = createHTMLTag('form', 'project-form',);
+    const projectForm = createHTMLTag('form', 'project-form');
     const projectName = createHTMLTag('input', 'project-name');
     const createBtn = createHTMLTag('button', 'project-button', 'Create Project');
 
@@ -74,14 +74,14 @@ const content = () => {
   // create wrapper within todo column
   const createTodosWrapper = (id) => {
     const todoColumn = document.querySelector('.todo-column');
-    const todosWrapper = createHTMLTag('div', 'todos-wrapper-hidden', id); //show todo wrapper class when project category is clicked
+    const todosWrapper = createHTMLTag('div', 'todos-wrapper-hidden', id); // show todo wrapper class when project category is clicked
     todoColumn.appendChild(todosWrapper);
-  }
+  };
 
   // create collapsed todo card
   const collapsedTodoCard = (todo) => {
     const todoWrapper = document.querySelector('.todos-wrapper-hidden');
-    const todoCard = createHTMLTag('div', 'todo-card');
+    const todoCard = createHTMLTag('div', 'collapsed-todo-card');
     const todoTitle = createHTMLTag('h3', 'todo-title', `${todo.Title}`);
     const todoDate = createHTMLTag('span', 'todo-date', `${todo.dueDate}`);
     todoCard.appendChild(todoTitle);
@@ -92,7 +92,7 @@ const content = () => {
   // create expanded todo card
   const expandedTodoCard = (todo) => {
     const todoWrapper = document.querySelector('.todos-wrapper-hidden');
-    const todoCard = createHTMLTag('div', 'todo-card');
+    const todoCard = createHTMLTag('div', 'expanded-todo-card');
     const todoTitle = createHTMLTag('h3', 'todo-title', `${todo.Title}`);
     const todoDescription = createHTMLTag('p', 'todo-description', `${todo.description}`);
     const todoDate = createHTMLTag('span', 'todo-date', `${todo.dueDate}`);
