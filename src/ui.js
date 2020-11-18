@@ -10,14 +10,14 @@ const UI = class {
     const list = Storage.retrieve();
 
     list.forEach(project => {
-      content.createProjectCard(project);
+      content().createProjectCard(project);
 
       if (project.list.length > 0) {
-        content.createTodosWrapper(project.projectName);
+        content().createTodosWrapper(project.projectName);
 
         project.list.forEach(todo => {
-          content.collapsedTodoCard(todo);
-          content.expandedTodoCard(todo);
+          content().collapsedTodoCard(todo);
+          content().expandedTodoCard(todo);
         });
       }
     });
@@ -38,7 +38,7 @@ const UI = class {
     const projectName = document.querySelector('.project-name').value;
     const project = new Project(projectName);
 
-    content.createProjectCard(project);
+    content().createProjectCard(project);
     Storage.save(project);
     event.preventDefault();
   }
@@ -52,7 +52,7 @@ const UI = class {
     const todoCategory = document.querySelector('.todo-category').value;
     const todo = new Todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoCategory);
 
-    content.collapsedTodoCard(todo);
+    content().collapsedTodoCard(todo);
     Storage.save(todo);
     event.preventDefault();
   }
