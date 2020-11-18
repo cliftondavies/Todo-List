@@ -8,6 +8,7 @@ const UI = class {
   // render projects and todos by category
   static render() {
     const list = Storage.retrieve();
+    // add select here if list.length is one?
 
     list.forEach(project => {
       content().createProjectCard(project);
@@ -25,12 +26,16 @@ const UI = class {
 
   // view project form
   static viewProjectForm() {
-    content.projectForm().classList.toggle('show-project-form-class');
+    const projectForm = document.querySelector('.project-form-wrapper-hidden');
+
+    projectForm.classList.toggle('show-project-form');
   }
 
   // view todo form
   static viewTodoForm() {
-    content.todoForm().classList.toggle('show-todo-form-class');
+    const todoForm = document.querySelector('.todo-form-wrapper-hidden');
+
+    todoForm.classList.toggle('show-todo-form');
   }
 
   // create a new project category
@@ -40,6 +45,7 @@ const UI = class {
 
     content().createProjectCard(project);
     Storage.save(project);
+    // update form select option with new project name after save here content().addSelectOption(selectInput)?
     event.preventDefault();
   }
 
@@ -47,7 +53,7 @@ const UI = class {
   static createTodo(event) {
     const todoTitle = document.querySelector('.todo-title').value;
     const todoDescription = document.querySelector('.todo-description').value;
-    const todoDueDate = document.querySelector('.todo-date').value;
+    const todoDueDate = document.querySelector('.todo-duedate').value;
     const todoPriority = document.querySelector('.todo-priority').value;
     const todoCategory = document.querySelector('.todo-category').value;
     const todo = new Todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoCategory);
@@ -66,15 +72,39 @@ const UI = class {
     expandedTodoCard.classList.toggle('show-todo-class');
   }
 
-  // set todo as complete
+  // edit todo: update status and priority, and delete
+  static editTodo(target) {
+    const projects = Storage.getList();
+    const todoID = target.parent.dataset.id;
+    const todoCategory = target.parent.dataset.category;
+    const project = projects.find(project => project.projectName === todoCategory);
+    const projectIndex = projects.indexOf(project);
+    const todo = project.list.find(todo => todo.id === todoID);
+    const todoIndex = project.list.indexOf(todo);
 
-  // change priority
+    if (target.textContent === 'Complete' || target.textContent === 'Incompleted') {
+      todo.updateStatus();
+    } else if (target.textContent === 'Delete') {
+      project.deleteTodo(todo);
+    } else {
+      todo.updatePriority();
+    }
 
-  // delete todo
+    // project.addTodo(todo);
+    project.list[todoIndex] = todo; // no todoIndex if todo has been deleted from project list
+    projects[projectIndex] = project;
+    localStorage.setItem('list', JSON.stringify(projects));
+  }
 
-  // delete project (nice to have)
+  // delete project
+  static deleteProject() {
+    const projects = Storage.getList();
+    const projectCategory = document.querySelector('.project-heading').textContent;
+    const project = projects.find(project => project.projectName === projectCategory);
+    const index = projects.indexOf(project);
 
-  // choose which projects a todo goes into (implement at creation of todo or after)
+    Storage.removeProject(projects, index);
+  }
 };
 
 export { UI as default };
