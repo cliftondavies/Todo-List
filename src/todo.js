@@ -5,28 +5,24 @@ const Todo = class {
     this.dueDate = dueDate;
     this.priority = priority;
     this.category = category;
-    this.completed = false;
+    this.completed = 'Incomplete';
     this.id = Todo.generateId();
   }
 
-  static numberOfTodos = 0
+  static numberOfTodos = 0 // to implement otherwise might be a problem when refreshed
 
   static generateId() {
     return Todo.numberOfTodos + 1;
   }
 
-  // set todo as complete (here or in storage)
-  toggleStatus() {
-    // retrieve whole list
-    // find todo project category
-    // find the todo
+  // toggleCompleteStatus(){}
+  updateStatus() {
+    this.completed = (this.completed === 'Complete') ? 'Incomplete' : 'Complete';
   }
 
-  // change todo priority (here or in storage)
-  changePriority() {
-    // retrieve whole list
-    // find todo project category
-    // find the todo
+  // changePriority(){}
+  updatePriority() {
+    this.priority = (this.priority === 'Low') ? 'High' : 'Low';
   }
 };
 
