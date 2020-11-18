@@ -16,7 +16,7 @@ const content = () => {
     const overallWrapper = createHTMLTag('div', 'overall-wrapper');
     const createForms = createHTMLTag('section', 'create-forms');
     const createProjectBtn = createHTMLTag('button', 'createProjectBtn', null, 'Add a Project');
-    const createTodoBtn = createHTMLTag('button', 'createTodoBtn', null, 'Add a Todo');
+    const createTodoBtn = createHTMLTag('button', 'createTodoBtn', null, 'Add a Todo'); // add button type attribute to all buttons outside forms
     const mainWrapper = createHTMLTag('main', 'main-wrapper');
     const projectColumn = createHTMLTag('ul', 'project-column');
     const todoColumn = createHTMLTag('section', 'todo-column');
@@ -50,6 +50,15 @@ const content = () => {
     overallWrapper.insertBefore(formWrapper, mainWrapper);
   };
 
+  const addSelectOption = (selectInput) => {
+    Project.categories.forEach(c => {
+      const option = document.createElement('option');
+      option.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+      option.setAttribute('value', c.toLowerCase());
+      selectInput.appendChild(option);
+    });
+  };
+
   const todoForm = () => { // to refactor
     const formWrapper = createHTMLTag('div', 'todo-form-wrapper-hidden');
     const todoForm = createHTMLTag('form', 'todo-form');
@@ -67,12 +76,7 @@ const content = () => {
     const categoryLabel = createHTMLTag('label', 'todo-label', null, 'Choose a Todo Category:');
     const todoCategory = createHTMLTag('select', 'todo-category', 'todo-category');
 
-    Project.categories.forEach(c => {
-      const option = document.createElement('option');
-      option.textContent = c.charAt(0).toUpperCase() + c.slice(1);
-      option.setAttribute('value', c.toLowerCase());
-      todoCategory.appendChild(option);
-    });
+    // call selectOption here?
 
     const todoSubmit = createHTMLTag('input', 'submit-Todo');
 
@@ -183,6 +187,7 @@ const content = () => {
   return {
     staticPage,
     projectForm,
+    addSelectOption,
     todoForm,
     createProjectCard,
     createTodosWrapper,
