@@ -7,13 +7,18 @@ const UI = class {
   // render default project with all the todos in storage
   // render projects and todos by category
   static render() {
-    const list = Storage.retrieve();
-    // add select here if list.length is one?
+    const projects = Storage.retrieve();
 
-    list.forEach(project => {
+    const categorySelect = document.querySelector('#todo-category');
+
+    Project.getAllCategories(projects).forEach(c => {
+      content().addSelectOption(categorySelect, projects, c);
+    });
+
+    projects.forEach(project => {
       content().createProjectCard(project);
 
-      if (project.list.length > 0) {
+      if (project.list.length > 0) { // look into this
         content().createTodosWrapper(project.projectName);
 
         project.list.forEach(todo => {
@@ -41,11 +46,13 @@ const UI = class {
   // create a new project category
   static createProject(event) {
     const projectName = document.querySelector('.project-name').value;
+    const categorySelect = document.querySelector('#todo-category');
     const project = new Project(projectName);
 
-    content().createProjectCard(project);
     Storage.save(project);
-    // update form select option with new project name after save here content().addSelectOption(selectInput)?
+    const projects = Storage.getList();
+    content().addSelectOption(categorySelect, projects);
+    content().createProjectCard(project);
     event.preventDefault();
   }
 
@@ -54,8 +61,10 @@ const UI = class {
     const todoTitle = document.querySelector('.todo-title').value;
     const todoDescription = document.querySelector('.todo-description').value;
     const todoDueDate = document.querySelector('.todo-duedate').value;
-    const todoPriority = document.querySelector('.todo-priority').value;
-    const todoCategory = document.querySelector('.todo-category').value;
+    // const todoPriority = document.querySelector('.todo-priority').value;
+    // const todoCategory = document.querySelector('.todo-category').value;
+    const todoPriority = document.querySelector('input[name="todo-priority"]:checked').value;
+    const todoCategory = document.querySelector('input[name="category"]:checked').value; // checked for select too?
     const todo = new Todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoCategory);
 
     content().collapsedTodoCard(todo);
@@ -90,10 +99,9 @@ const UI = class {
       todo.updatePriority();
     }
 
-    // project.addTodo(todo);
-    project.list[todoIndex] = todo; // no todoIndex if todo has been deleted from project list
-    projects[projectIndex] = project;
-    localStorage.setItem('list', JSON.stringify(projects));
+    if (target.textContent !== 'Delete') { project.saveTodo(todo, todoIndex); }
+
+    Storage.save(project, projectIndex);
   }
 
   // delete project
