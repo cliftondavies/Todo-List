@@ -1,10 +1,31 @@
-*{
+* {
   border: 1px solid rgb(60, 255, 0);
 }
 
-
 body { background-color: rgb(224, 77, 32);}
 
-.wrapper {
+.main-wrapper {
   display: flex
 }
+
+.project-form {
+  display: none;
+}
+
+.show-project-form {
+  display: block;
+}
+
+.todo-form {
+  display: none;
+}
+
+.show-todo-form {
+  display: block;
+}
+
+/*
+.show-todo-form
+.hide-todo-card
+.show-todo-card
+*/
