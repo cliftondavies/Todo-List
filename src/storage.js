@@ -10,34 +10,34 @@ const Storage = class {
     return JSON.parse(localStorage.getItem('list'));
   }
 
-  // save (project or todo object) to storage
-  static save(obj) {
+  // save new (project or todo object) to storage
+  static save(obj, index = null) {
     const storedProjects = this.retrieve();
 
-    if (obj instanceof Project) {
+    if (index) { // or Project obj && index if this doesn't work
+      storedProjects[index] = obj;
+    } else if (obj instanceof Project) { // Project obj && !index
       storedProjects.push(obj);
-      // Call Project.addCategory(obj) here?
     } else {
       const project = storedProjects.find(project => project.projectName === obj.category);
       const index = storedProjects.indexOf(project);
-      project.addTodo(obj);
+      project.saveTodo(obj);
       storedProjects[index] = project;
     }
 
     localStorage.setItem('list', JSON.stringify(storedProjects));
   }
 
+  // static update(projects, index, project) {
+  //   projects[index] = project;
+  //   localStorage.setItem('list', JSON.stringify(projects));
+  // }
+
   // remove project
   static removeProject(projects, index) {
     projects.splice(index, 1);
     localStorage.setItem('list', JSON.stringify(projects));
   }
-
-  // remove todo from the storage (here or in todo)
-  static removeTodo() {
-
-  }
-
 };
 
 export { Storage as default };
