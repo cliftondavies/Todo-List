@@ -50,13 +50,12 @@ const content = () => {
     overallWrapper.insertBefore(formWrapper, mainWrapper);
   };
 
-  const addSelectOption = (selectInput) => {
-    Project.categories.forEach(c => {
-      const option = document.createElement('option');
-      option.textContent = c.charAt(0).toUpperCase() + c.slice(1);
-      option.setAttribute('value', c.toLowerCase());
-      selectInput.appendChild(option);
-    });
+  const addSelectOption = (selectInput, projects, category = null) => {
+    if (category === null) { category = Project.getLastAddedCategory(projects); }
+    const option = document.createElement('option');
+    option.textContent = category;
+    option.setAttribute('value', category);
+    selectInput.appendChild(option);
   };
 
   const todoForm = () => { // to refactor
@@ -75,10 +74,7 @@ const content = () => {
     const highTodoPriority = createHTMLTag('input', 'todo-priority', 'high-todo-priority');
     const categoryLabel = createHTMLTag('label', 'todo-label', null, 'Choose a Todo Category:');
     const todoCategory = createHTMLTag('select', 'todo-category', 'todo-category');
-
-    // call selectOption here?
-
-    const todoSubmit = createHTMLTag('input', 'submit-Todo');
+    const todoSubmit = createHTMLTag('input', 'submit-todo');
 
     titleLabel.setAttribute('for', 'todo-title');
     todoTitle.setAttribute('type', 'text');
@@ -93,14 +89,14 @@ const content = () => {
     lowTodoPriority.setAttribute('type', 'radio');
     lowTodoPriority.setAttribute('name', 'todo-priority');
     lowTodoPriority.setAttribute('value', 'Low');
-    lowTodoPriority.setAttribute('checked'); // check if only one param
+    lowTodoPriority.setAttribute('checked', true);
     highPriorityLabel.setAttribute('for', 'high-todo-priority');
     highTodoPriority.setAttribute('type', 'radio');
     highTodoPriority.setAttribute('name', 'todo-priority');
     highTodoPriority.setAttribute('value', 'High');
     categoryLabel.setAttribute('for', 'todo-category');
     todoCategory.setAttribute('name', 'todo-category');
-    todoSubmit.setAttribute('type', 'submit'); // and name attr
+    todoSubmit.setAttribute('type', 'submit');
     todoSubmit.setAttribute('value', 'Create Todo');
 
     todoForm.appendChild(titleLabel);
