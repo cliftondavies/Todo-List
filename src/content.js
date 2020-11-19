@@ -1,13 +1,13 @@
 import Project from './project';
 
 const content = () => {
-  const overallWrapper = document.getElementById('overall-wrapper');
-  const mainWrapper = document.getElementById('main-wrapper');
+  const overallWrapper = document.querySelector('.overall-wrapper');
+  const mainWrapper = document.querySelector('.main-wrapper');
 
-  const createHTMLTag = (tag, klass, id = null, textContent = null) => { // how to do two optional parameters? // input type
-    const htmlElement = document.createElement(`${tag}`);
+  const createHTMLTag = (tag, klass, id = null, textContent = null) => {
+    const htmlElement = document.createElement(tag);
     if (id) htmlElement.id = id;
-    htmlElement.className += `${klass}`;
+    htmlElement.className = klass;
     if (textContent) htmlElement.textContent = textContent;
     return htmlElement;
   };
