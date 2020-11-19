@@ -4,28 +4,29 @@ const Project = class {
     this.list = [];
   }
 
-  static categories = []; // might not need this anymore
-
-  static getCategories(projects) {
-    const categories = [];
-    projects.forEach(p => categories.push(p.projectName));
-    return categories; // we want the last added category?
+  static getLastAddedCategory(projects) {
+    return projects[projects.length - 1].projectName;
   }
 
-  // add todo item to a project's list
-  addTodo(todo) {
-    this.list.push(todo);
+  static getAllCategories(projects) {
+    const categories = [];
+    projects.forEach(p => categories.push(p.projectName));
+    return categories;
+  }
+
+  // save (add/update) todo item to a project's list
+  saveTodo(todo, index = null) {
+    if (index) {
+      this.list[index] = todo;
+    } else {
+      this.list.push(todo);
+    }
   }
 
   // remove todo from a oroject's list
   deleteTodo(todo) {
     const index = this.list.indexOf(todo);
     this.list.splice(index, 1);
-  }
-
-  // add to current list of categories (optional)
-  static addCategory(project) { // might not need this anymore
-    this.categories.push(project.projectName);
   }
 };
 
