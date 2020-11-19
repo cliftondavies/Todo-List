@@ -15,5 +15,5 @@ const todoForm = document.querySelector('.todo-form');
 
 viewProjectFormBtn.addEventListener('click', UI.viewProjectForm);
 viewTodoFormBtn.addEventListener('click', UI.viewTodoForm);
-projectForm.addEventListener('submit', UI.newCategory);
-todoForm.addEventListener('submit', UI.newTodo);
+projectForm.addEventListener('submit', UI.createProject);
+todoForm.addEventListener('submit', UI.createTodo);

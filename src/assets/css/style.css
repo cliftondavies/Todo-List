@@ -8,7 +8,7 @@ body { background-color: rgb(224, 77, 32);}
   display: flex
 }
 
-.project-form {
+.project-form-wrapper-hidden {
   display: none;
 }
 
@@ -16,7 +16,7 @@ body { background-color: rgb(224, 77, 32);}
   display: block;
 }
 
-.todo-form {
+.todo-form-wrapper-hidden {
   display: none;
 }
 
