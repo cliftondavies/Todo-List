@@ -4,8 +4,7 @@ import Project from './project';
 import Todo from './todo';
 
 const UI = class {
-  // render default project with all the todos in storage
-  // render projects and todos by category
+  // render default project with all the todos in storage & render projects and todos by category
   static render() {
     const projects = Storage.retrieve();
 
@@ -31,16 +30,16 @@ const UI = class {
 
   // view project form
   static viewProjectForm() {
-    const projectForm = document.querySelector('.project-form-wrapper-hidden');
+    const projectFormWrap = document.querySelector('.project-form-wrapper-hidden');
 
-    projectForm.classList.toggle('show-project-form');
+    projectFormWrap.classList.toggle('show-project-form');
   }
 
   // view todo form
   static viewTodoForm() {
-    const todoForm = document.querySelector('.todo-form-wrapper-hidden');
+    const todoFormWrap = document.querySelector('.todo-form-wrapper-hidden');
 
-    todoForm.classList.toggle('show-todo-form');
+    todoFormWrap.classList.toggle('show-todo-form');
   }
 
   // create a new project category
@@ -50,9 +49,9 @@ const UI = class {
     const project = new Project(projectName);
 
     Storage.save(project);
+    content().createProjectCard(project);
     const projects = Storage.getList();
     content().addSelectOption(categorySelect, projects);
-    content().createProjectCard(project);
     event.preventDefault();
   }
 
