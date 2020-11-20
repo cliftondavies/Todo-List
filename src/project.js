@@ -1,6 +1,6 @@
 const Project = class {
   constructor(projectName = 'General') {
-    this.projectName = projectName;
+    this.projectName = projectName.toLowerCase(); // lowercase project name before setting property
     this.list = [];
   }
 
@@ -13,6 +13,11 @@ const Project = class {
     projects.forEach(p => categories.push(p.projectName));
     return categories;
   }
+
+  // add/save new todo but no update
+  // addTodo(todo) {
+  //   return this.list.push(todo);
+  // }
 
   // save (add/update) todo item to a project's list
   saveTodo(todo, index = null) {
