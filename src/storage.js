@@ -21,7 +21,8 @@ const Storage = class {
     } else {
       const project = storedProjects.find(project => project.projectName === obj.category);
       const index = storedProjects.indexOf(project);
-      project.saveTodo(obj);
+      // project.list.push(todo);
+      project.saveTodo(obj); // won't work if project is null;
       storedProjects[index] = project;
     }
 

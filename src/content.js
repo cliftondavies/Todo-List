@@ -4,7 +4,7 @@ const content = () => {
   const overallWrapper = document.querySelector('.overall-wrapper');
   const mainWrapper = document.querySelector('.main-wrapper');
 
-  const createHTMLTag = (tag, klass, id = null, textContent = null) => {
+  const createHTMLTag = (tag, klass, id = '', textContent = '') => {
     const htmlElement = document.createElement(tag);
     if (id) htmlElement.id = id;
     htmlElement.className = klass;
@@ -15,8 +15,8 @@ const content = () => {
   const staticPage = () => {
     const overallWrapper = createHTMLTag('div', 'overall-wrapper');
     const createForms = createHTMLTag('section', 'create-forms');
-    const createProjectBtn = createHTMLTag('button', 'createProjectBtn', null, 'Add a Project');
-    const createTodoBtn = createHTMLTag('button', 'createTodoBtn', null, 'Add a Todo'); // add button type attribute to all buttons outside forms
+    const createProjectBtn = createHTMLTag('button', 'createProjectBtn', '', 'Add a Project');
+    const createTodoBtn = createHTMLTag('button', 'createTodoBtn', '', 'Add a Todo'); // add button type attribute to all buttons outside forms
     const mainWrapper = createHTMLTag('main', 'main-wrapper');
     const projectColumn = createHTMLTag('ul', 'project-column');
     const todoColumn = createHTMLTag('section', 'todo-column');
@@ -33,7 +33,7 @@ const content = () => {
   const projectForm = () => {
     const formWrapper = createHTMLTag('div', 'project-form-wrapper-hidden');
     const projectForm = createHTMLTag('form', 'project-form');
-    const projectLabel = createHTMLTag('label', 'project-label', null, 'Project Name');
+    const projectLabel = createHTMLTag('label', 'project-label', '', 'Project Name');
     const projectName = createHTMLTag('input', 'project-name', 'project-name'); // input type text by default?
     const projectSubmit = createHTMLTag('input', 'submit-project');
 
@@ -50,8 +50,8 @@ const content = () => {
     overallWrapper.insertBefore(formWrapper, mainWrapper);
   };
 
-  const addSelectOption = (selectInput, projects, category = null) => {
-    if (category === null) { category = Project.getLastAddedCategory(projects); }
+  const addSelectOption = (selectInput, projects, category = '') => {
+    if (category === '') { category = Project.getLastAddedCategory(projects); }
     const option = document.createElement('option');
     option.textContent = category;
     option.setAttribute('value', category);
@@ -61,18 +61,18 @@ const content = () => {
   const todoForm = () => { // to refactor
     const formWrapper = createHTMLTag('div', 'todo-form-wrapper-hidden');
     const todoForm = createHTMLTag('form', 'todo-form');
-    const titleLabel = createHTMLTag('label', 'todo-label', null, 'Todo Title');
+    const titleLabel = createHTMLTag('label', 'todo-label', '', 'Todo Title');
     const todoTitle = createHTMLTag('input', 'todo-title', 'todo-title');
-    const descriptionLabel = createHTMLTag('label', 'todo-label', null, 'Todo Description');
+    const descriptionLabel = createHTMLTag('label', 'todo-label', '', 'Todo Description');
     const todoDescription = createHTMLTag('input', 'todo-description', 'todo-description');
-    const dueDateLabel = createHTMLTag('label', 'todo-label', null, 'Todo Due Date');
+    const dueDateLabel = createHTMLTag('label', 'todo-label', '', 'Todo Due Date');
     const todoDueDate = createHTMLTag('input', 'todo-duedate', 'todo-duedate');
-    const priorityLabel = createHTMLTag('label', 'todo-label', null, 'Select Todo Priority:');
-    const lowPriorityLabel = createHTMLTag('label', 'todo-label', null, 'Low Todo Priority');
+    const priorityLabel = createHTMLTag('label', 'todo-label', '', 'Select Todo Priority:');
+    const lowPriorityLabel = createHTMLTag('label', 'todo-label', '', 'Low Todo Priority');
     const lowTodoPriority = createHTMLTag('input', 'todo-priority', 'low-todo-priority');
-    const highPriorityLabel = createHTMLTag('label', 'todo-label', null, 'High Todo Priority');
+    const highPriorityLabel = createHTMLTag('label', 'todo-label', '', 'High Todo Priority');
     const highTodoPriority = createHTMLTag('input', 'todo-priority', 'high-todo-priority');
-    const categoryLabel = createHTMLTag('label', 'todo-label', null, 'Choose a Todo Category:');
+    const categoryLabel = createHTMLTag('label', 'todo-label', '', 'Choose a Todo Category:');
     const todoCategory = createHTMLTag('select', 'todo-category', 'todo-category');
     const todoSubmit = createHTMLTag('input', 'submit-todo');
 
@@ -89,7 +89,7 @@ const content = () => {
     lowTodoPriority.setAttribute('type', 'radio');
     lowTodoPriority.setAttribute('name', 'todo-priority');
     lowTodoPriority.setAttribute('value', 'Low');
-    lowTodoPriority.setAttribute('checked', true);
+    lowTodoPriority.setAttribute('checked', '');
     highPriorityLabel.setAttribute('for', 'high-todo-priority');
     highTodoPriority.setAttribute('type', 'radio');
     highTodoPriority.setAttribute('name', 'todo-priority');
@@ -121,8 +121,9 @@ const content = () => {
   const createProjectCard = (project) => {
     const projectColumn = document.querySelector('.project-column');
     const projectCard = createHTMLTag('li', 'project-card'); // check if li element is clickable, otherwise change to a tag
-    const projectHeading = createHTMLTag('h3', 'project-heading', null, project.projectName);
-    const deleteBtn = createHTMLTag('button', 'delete-project-btn', null, 'X');
+    const projectHeading = createHTMLTag('h3', 'project-heading', '', project.projectName);
+    // .charAt(0).toUpperCase() + project.projectName.slice(1); Titlecase heading
+    const deleteBtn = createHTMLTag('button', 'delete-project-btn', '', 'X');
 
     projectCard.appendChild(projectHeading);
     projectCard.appendChild(deleteBtn);
@@ -130,43 +131,45 @@ const content = () => {
   };
 
   // create wrapper for each list within todo column
-  const createTodosWrapper = (id) => {
+  const createTodosWrapper = (projectNameAsID) => {
     const todoColumn = document.querySelector('.todo-column');
-    const todosWrapper = createHTMLTag('div', 'todos-wrapper-hidden', id); // show todo wrapper class when project category is clicked
+    const todosWrapper = createHTMLTag('div', 'todos-wrapper-hidden', projectNameAsID); // show todo wrapper class when project category is clicked
 
     todoColumn.appendChild(todosWrapper);
   };
 
   // create collapsed todo card
   const collapsedTodoCard = (todo) => {
-    const todoWrapper = document.querySelector('.todos-wrapper-hidden');
+    // const todoWrapper = document.querySelector('.todos-wrapper-hidden');
     const todoCard = createHTMLTag('div', 'collapsed-todo-card');
-    const todoTitle = createHTMLTag('h3', 'todo-title', null, todo.Title);
-    const todoDate = createHTMLTag('span', 'todo-date', null, todo.dueDate);
-    const deleteBtn = createHTMLTag('button', 'delete-todo-btn', null, 'X');
+    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.Title);
+    const todoDate = createHTMLTag('span', 'todo-date', '', todo.dueDate);
+    const deleteBtn = createHTMLTag('button', 'delete-todo-btn', '', 'X');
 
-    todoCard.setAttribute('data-id', 'todo.id');
-    todoCard.setAttribute('data-category', 'todo.category');
+    todoCard.setAttribute('data-id', todo.id);
+    todoCard.setAttribute('data-category', todo.category);
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDate);
     todoCard.appendChild(deleteBtn);
-    todoWrapper.appendChild(todoCard);
+    // todoWrapper.appendChild(todoCard);
+
+    return todoCard;
   };
 
   // create expanded todo card
   const expandedTodoCard = (todo) => {
-    const todoWrapper = document.querySelector('.todos-wrapper-hidden');
+    // const todoWrapper = document.querySelector('.todos-wrapper-hidden');
     const todoCard = createHTMLTag('div', 'expanded-todo-card');
-    const todoTitle = createHTMLTag('h3', 'todo-title', null, todo.Title);
+    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.Title);
     const todoDescription = createHTMLTag('p', 'todo-description', todo.description);
-    const todoDate = createHTMLTag('span', 'todo-date', null, todo.dueDate);
-    const todoPriority = createHTMLTag('button', 'todo-priority', null, todo.priority);
-    const todoCompleted = createHTMLTag('button', 'todo-completed', null, todo.completed);
-    const deleteBtn = createHTMLTag('button', 'delete-todo-btn', null, 'X');
+    const todoDate = createHTMLTag('span', 'todo-date', '', todo.dueDate);
+    const todoPriority = createHTMLTag('button', 'todo-priority', '', todo.priority);
+    const todoCompleted = createHTMLTag('button', 'todo-completed', '', todo.completed);
+    const deleteBtn = createHTMLTag('button', 'delete-todo-btn', '', 'X');
 
-    todoCard.setAttribute('data-id', 'todo.id');
-    todoCard.setAttribute('data-category', 'todo.category');
+    todoCard.setAttribute('data-id', todo.id);
+    todoCard.setAttribute('data-category', todo.category);
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDescription);
@@ -174,7 +177,9 @@ const content = () => {
     todoCard.appendChild(todoPriority);
     todoCard.appendChild(todoCompleted);
     todoCard.appendChild(deleteBtn);
-    todoWrapper.appendChild(todoCard);
+    // todoWrapper.appendChild(todoCard);
+
+    return todoCard;
   };
 
   // set project colour on creation (nice to have)
