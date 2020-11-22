@@ -1,9 +1,6 @@
 import Project from './project';
 
-const content = () => {
-  const overallWrapper = document.querySelector('.overall-wrapper');
-  const mainWrapper = document.querySelector('.main-wrapper');
-
+const content = (() => {
   const createHTMLTag = (tag, klass, id = '', textContent = '') => {
     const htmlElement = document.createElement(tag);
     if (id) htmlElement.id = id;
@@ -12,33 +9,44 @@ const content = () => {
     return htmlElement;
   };
 
+  // const overallWrapper = document.querySelector('.overall-wrapper');
+  // const mainWrapper = document.querySelector('.main-wrapper');
+  const overallWrapper = createHTMLTag('div', 'overall-wrapper');
+  const mainWrapper = createHTMLTag('main', 'main-wrapper');
+  overallWrapper.appendChild(mainWrapper);
+  document.body.appendChild(overallWrapper);
+
   const staticPage = () => {
-    const overallWrapper = createHTMLTag('div', 'overall-wrapper');
+    // const overallWrapper = createHTMLTag('div', 'overall-wrapper');
     const createForms = createHTMLTag('section', 'create-forms');
+    // add button type attribute to all buttons outside forms
     const createProjectBtn = createHTMLTag('button', 'createProjectBtn', '', 'Add a Project');
-    const createTodoBtn = createHTMLTag('button', 'createTodoBtn', '', 'Add a Todo'); // add button type attribute to all buttons outside forms
-    const mainWrapper = createHTMLTag('main', 'main-wrapper');
+    const createTodoBtn = createHTMLTag('button', 'createTodoBtn', '', 'Add a Todo');
+    // const mainWrapper = createHTMLTag('main', 'main-wrapper');
     const projectColumn = createHTMLTag('ul', 'project-column');
     const todoColumn = createHTMLTag('section', 'todo-column');
+
+    createProjectBtn.setAttribute('type', 'button');
+    createTodoBtn.setAttribute('type', 'button');
 
     createForms.appendChild(createProjectBtn);
     createForms.appendChild(createTodoBtn);
     mainWrapper.appendChild(projectColumn);
     mainWrapper.appendChild(todoColumn);
     overallWrapper.appendChild(createForms);
-    overallWrapper.appendChild(mainWrapper);
-    document.body.appendChild(overallWrapper);
+    // overallWrapper.appendChild(mainWrapper);
+    // document.body.appendChild(overallWrapper);
   };
 
   const projectForm = () => {
     const formWrapper = createHTMLTag('div', 'project-form-wrapper-hidden');
     const projectForm = createHTMLTag('form', 'project-form');
     const projectLabel = createHTMLTag('label', 'project-label', '', 'Project Name');
-    const projectName = createHTMLTag('input', 'project-name', 'project-name'); // input type text by default?
+    const projectName = createHTMLTag('input', 'project-name', 'project-name');
     const projectSubmit = createHTMLTag('input', 'submit-project');
 
     projectLabel.setAttribute('for', 'project-name');
-    projectName.setAttribute('type', 'text'); // text input is default (try not to specify these when refactoring)
+    // projectName.setAttribute('type', 'text');
     projectName.setAttribute('name', 'project-name');
     projectSubmit.setAttribute('type', 'submit');
     projectSubmit.setAttribute('value', 'Create Project');
@@ -77,10 +85,10 @@ const content = () => {
     const todoSubmit = createHTMLTag('input', 'submit-todo');
 
     titleLabel.setAttribute('for', 'todo-title');
-    todoTitle.setAttribute('type', 'text');
+    // todoTitle.setAttribute('type', 'text');
     todoTitle.setAttribute('name', 'todo-title');
     descriptionLabel.setAttribute('for', 'todo-description');
-    todoDescription.setAttribute('type', 'text');
+    // todoDescription.setAttribute('type', 'text');
     todoDescription.setAttribute('name', 'todo-description');
     dueDateLabel.setAttribute('for', 'todo-duedate');
     todoDueDate.setAttribute('type', 'date');
@@ -125,6 +133,8 @@ const content = () => {
     // .charAt(0).toUpperCase() + project.projectName.slice(1); Titlecase heading
     const deleteBtn = createHTMLTag('button', 'delete-project-btn', '', 'X');
 
+    deleteBtn.setAttribute('type', 'button');
+
     projectCard.appendChild(projectHeading);
     projectCard.appendChild(deleteBtn);
     projectColumn.appendChild(projectCard);
@@ -148,6 +158,7 @@ const content = () => {
 
     todoCard.setAttribute('data-id', todo.id);
     todoCard.setAttribute('data-category', todo.category);
+    deleteBtn.setAttribute('type', 'button');
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDate);
@@ -170,6 +181,7 @@ const content = () => {
 
     todoCard.setAttribute('data-id', todo.id);
     todoCard.setAttribute('data-category', todo.category);
+    deleteBtn.setAttribute('type', 'button');
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDescription);
@@ -180,6 +192,27 @@ const content = () => {
     // todoWrapper.appendChild(todoCard);
 
     return todoCard;
+  };
+
+  const toggleClass = (element, className) => {
+    element.classList.toggle(className);
+  };
+
+  const updateTargetContent = (target) => {
+    if (target.textContent === 'Complete') {
+      target.textContent = 'Incomplete';
+    } else if (target.textContent === 'Incomplete') {
+      target.textContent = 'Complete';
+    } else if (target.textContent === 'High') {
+      target.textContent = 'Low';
+    } else if (target.textContent === 'Low') {
+      target.textContent = 'High';
+    }
+  };
+
+  const removeTodoCards = (target) => {
+    target.parentNode.previousSibling.remove();
+    target.parentNode.remove();
   };
 
   // set project colour on creation (nice to have)
@@ -194,7 +227,10 @@ const content = () => {
     createTodosWrapper,
     collapsedTodoCard,
     expandedTodoCard,
+    toggleClass,
+    updateTargetContent,
+    removeTodoCards,
   };
-};
+})();
 
 export { content as default };
