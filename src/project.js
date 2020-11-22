@@ -1,6 +1,6 @@
 const Project = class {
   constructor(projectName = 'General') {
-    this.projectName = projectName.toLowerCase(); // lowercase project name before setting property
+    this.projectName = projectName.toLowerCase();
     this.list = [];
   }
 
@@ -20,7 +20,7 @@ const Project = class {
   // }
 
   // save (add/update) todo item to a project's list
-  saveTodo(todo, index = null) {
+  saveTodo = (todo, index = null) => {
     if (index) {
       this.list[index] = todo;
     } else {
@@ -29,9 +29,8 @@ const Project = class {
   }
 
   // remove todo from a oroject's list
-  deleteTodo(todo) {
-    const index = this.list.indexOf(todo);
-    this.list.splice(index, 1);
+  deleteTodo = (todoIndex) => {
+    this.list.splice(todoIndex, 1);
   }
 };
 
