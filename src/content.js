@@ -13,7 +13,7 @@ const content = (() => {
   // const mainWrapper = document.querySelector('.main-wrapper');
   const overallWrapper = createHTMLTag('div', 'overall-wrapper');
   const mainWrapper = createHTMLTag('main', 'main-wrapper');
-  overallWrapper.appendChild(mainWrapper);
+  // overallWrapper.appendChild(mainWrapper);
   document.body.appendChild(overallWrapper);
 
   const staticPage = () => {
@@ -23,7 +23,7 @@ const content = (() => {
     const createProjectBtn = createHTMLTag('button', 'createProjectBtn', '', 'Add a Project');
     const createTodoBtn = createHTMLTag('button', 'createTodoBtn', '', 'Add a Todo');
     // const mainWrapper = createHTMLTag('main', 'main-wrapper');
-    const projectColumn = createHTMLTag('ul', 'project-column');
+    const projectColumn = createHTMLTag('section', 'project-column');
     const todoColumn = createHTMLTag('section', 'todo-column');
 
     createProjectBtn.setAttribute('type', 'button');
@@ -34,7 +34,7 @@ const content = (() => {
     mainWrapper.appendChild(projectColumn);
     mainWrapper.appendChild(todoColumn);
     overallWrapper.appendChild(createForms);
-    // overallWrapper.appendChild(mainWrapper);
+    overallWrapper.appendChild(mainWrapper);
     // document.body.appendChild(overallWrapper);
   };
 
@@ -128,15 +128,15 @@ const content = (() => {
   // create project card
   const createProjectCard = (project) => {
     const projectColumn = document.querySelector('.project-column');
-    const projectCard = createHTMLTag('li', 'project-card'); // check if li element is clickable, otherwise change to a tag
+    const projectCard = createHTMLTag('div', 'project-card');
     const projectHeading = createHTMLTag('h3', 'project-heading', '', project.projectName);
     // .charAt(0).toUpperCase() + project.projectName.slice(1); Titlecase heading
-    const deleteBtn = createHTMLTag('button', 'delete-project-btn', '', 'X');
+    // const deleteBtn = createHTMLTag('button', 'delete-project-btn', '', 'Delete'); // textContent might return this too
 
-    deleteBtn.setAttribute('type', 'button');
+    // deleteBtn.setAttribute('type', 'button');
 
     projectCard.appendChild(projectHeading);
-    projectCard.appendChild(deleteBtn);
+    // projectCard.appendChild(deleteBtn);
     projectColumn.appendChild(projectCard);
   };
 
@@ -152,17 +152,26 @@ const content = (() => {
   const collapsedTodoCard = (todo) => {
     // const todoWrapper = document.querySelector('.todos-wrapper-hidden');
     const todoCard = createHTMLTag('div', 'collapsed-todo-card');
-    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.Title);
+    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.Title); // change span implementation to h3
     const todoDate = createHTMLTag('span', 'todo-date', '', todo.dueDate);
-    const deleteBtn = createHTMLTag('button', 'delete-todo-btn', '', 'X');
+    const deleteTodo = createHTMLTag('button', 'delete-todo-btn', '', 'Delete');
 
     todoCard.setAttribute('data-id', todo.id);
-    todoCard.setAttribute('data-category', todo.category);
-    deleteBtn.setAttribute('type', 'button');
+    // todoCard.setAttribute('data-category', todo.category);
+
+    todoTitle.setAttribute('data-id', todo.id);
+    // todoTitle.setAttribute('data-category', todo.category);
+
+    todoDate.setAttribute('data-id', todo.id);
+    // todoDate.setAttribute('data-category', todo.category);
+
+    deleteTodo.setAttribute('type', 'button');
+    deleteTodo.setAttribute('data-id', todo.id);
+    deleteTodo.setAttribute('data-category', todo.category);
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDate);
-    todoCard.appendChild(deleteBtn);
+    todoCard.appendChild(deleteTodo);
     // todoWrapper.appendChild(todoCard);
 
     return todoCard;
@@ -177,18 +186,38 @@ const content = (() => {
     const todoDate = createHTMLTag('span', 'todo-date', '', todo.dueDate);
     const todoPriority = createHTMLTag('button', 'todo-priority', '', todo.priority);
     const todoCompleted = createHTMLTag('button', 'todo-completed', '', todo.completed);
-    const deleteBtn = createHTMLTag('button', 'delete-todo-btn', '', 'X');
+    const deleteTodo = createHTMLTag('button', 'delete-todo-btn', '', 'Delete');
 
     todoCard.setAttribute('data-id', todo.id);
-    todoCard.setAttribute('data-category', todo.category);
-    deleteBtn.setAttribute('type', 'button');
+    // todoCard.setAttribute('data-category', todo.category);
+
+    todoTitle.setAttribute('data-id', todo.id);
+    // todoTitle.setAttribute('data-category', todo.category);
+
+    todoDescription.setAttribute('data-id', todo.id);
+    // todoDescription.setAttribute('data-category', todo.category);
+
+    todoDate.setAttribute('data-id', todo.id);
+    // todoDate.setAttribute('data-category', todo.category);
+
+    todoPriority.setAttribute('type', 'button');
+    todoPriority.setAttribute('data-id', todo.id);
+    todoPriority.setAttribute('data-category', todo.category);
+
+    todoCompleted.setAttribute('type', 'button');
+    todoCompleted.setAttribute('data-id', todo.id);
+    todoCompleted.setAttribute('data-category', todo.category);
+
+    deleteTodo.setAttribute('type', 'button');
+    deleteTodo.setAttribute('data-id', todo.id);
+    deleteTodo.setAttribute('data-category', todo.category);
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDescription);
     todoCard.appendChild(todoDate);
     todoCard.appendChild(todoPriority);
     todoCard.appendChild(todoCompleted);
-    todoCard.appendChild(deleteBtn);
+    todoCard.appendChild(deleteTodo);
     // todoWrapper.appendChild(todoCard);
 
     return todoCard;

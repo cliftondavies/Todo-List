@@ -2,7 +2,7 @@
   border: 1px solid rgb(60, 255, 0);
 }
 
-body { background-color: rgb(224, 77, 32);}
+body { background-color: rgb(224, 77, 32); }
 
 .main-wrapper {
   display: flex
@@ -24,9 +24,8 @@ body { background-color: rgb(224, 77, 32);}
   display: block;
 }
 
-
-.todo-wrapper-hidden {
-  display:none;
+.todos-wrapper-hidden {
+  display: none;
 }
 
 .show-todo-wrapper {
@@ -35,24 +34,13 @@ body { background-color: rgb(224, 77, 32);}
 
 .expanded-todo-card {
   border: 3px solid rgb(28, 17, 170);
-  /* display: none; */
-  /* z-index: 100; */
+  display: none;
 }
-
-/* .expanded-todo-card span {
-  z-index: 1;
-} */
 
 .collapsed-todo-card {
   border: 3px solid rgb(0, 0, 0);
-  /* z-index : 1000;
-  position: relative; */
+  display: block;
 }
-
-/* .collapsed-todo-card span {
-  z-index: 1;
-  position: absolute;
-} */
 
 .show-todo-card {
   display: block;

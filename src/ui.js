@@ -15,15 +15,16 @@ const ui = (() => {
 
     projects.forEach(project => {
       content.createProjectCard(project);
+      const todosWrapperID = project.projectName.split(' ').join('-');
+      content.createTodosWrapper(todosWrapperID);
+      const todosWrapper = document.querySelector(`#${todosWrapperID}`);
 
       if (project.list.length > 0) {
-        const todosWrapperID = project.projectName.split(' ').join('-');
-        content.createTodosWrapper(todosWrapperID);
-        const todosWrapper = document.querySelector(`#${todosWrapperID}`);
 
         project.list.forEach(todo => {
-          todosWrapper.appendChild(content.collapsedTodoCard(todo));
-          todosWrapper.appendChild(content.expandedTodoCard(todo));
+          todosWrapper.appendChild(content.collapsedTodoCard(todo)); // call from content module
+          todosWrapper.appendChild(content.expandedTodoCard(todo)); // call from content module
+          // show todo wrapper for project in the general category.
         });
       }
     });
@@ -53,8 +54,10 @@ const ui = (() => {
 
     storage.save(project);
     content.createProjectCard(project);
-    const projects = storage.getList();
+    const projects = storage.retrieve();
     content.addSelectOption(categorySelect, projects);
+    const todosWrapperID = projectName.toLowerCase().split(' ').join('-');
+    content.createListWrapper(todosWrapperID);
     event.preventDefault();
   };
 
@@ -68,33 +71,43 @@ const ui = (() => {
     const todo = new Todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoCategory);
 
     storage.save(todo);
-    content.collapsedTodoCard(todo); // should this & eTC be done here or will render do this after save?
+    const todosWrapperID = todoCategory.toLowerCase().split(' ').join('-');
+    const todosWrapper = document.querySelector(`#${todosWrapperID}`);
+    todosWrapper.appendChild(content.collapsedTodoCard(todo));
+    todosWrapper.appendChild(content.expandedTodoCard(todo));
+    // todosWrapper.classList.toggle('show-todo-wrapper');
+    content.toggleClass(todosWrapper, 'show-todo-wrapper');
     event.preventDefault();
   };
 
   // show list of todos within a given project
   const showProjectList = (projectHeading) => {
-    projectHeading = projectHeading.toLowerCase().split(' ').join('-');
-    const todosWrapper = document.querySelector(`#${projectHeading}`);
+    const todosWrapperID = projectHeading.toLowerCase().split(' ').join('-');
+    const todosWrapper = document.querySelector(`#${todosWrapperID}`);
     // todosWrapper.classList.toggle('show-todo-wrapper');
-    content.toggleClass(todosWrapper, 'show-todo-wrapper');
+    const elementsOnShow = document.getElementsByClassName('show-todo-wrapper');
+
+    Array.from(elementsOnShow).forEach(element => { content.toggleClass(element, 'show-todo-wrapper'); });
+    if (todosWrapper) { content.toggleClass(todosWrapper, 'show-todo-wrapper'); }
   };
 
   // expand todo
   const expandTodo = (dataID) => {
-    const collapsedTodoCard = document.querySelector(`span[data-id="${dataID}"]`); // change span
+    const collapsedTodoCard = document.querySelector(`span[data-id="${dataID}"]`); // select ctc with same id
 
     // collapsedTodoCard.parentNode.classList.toggle('expanded-todo-card');
     // collapsedTodoCard.parentNode.nextSibling.classList.toggle('show-todo-card');
-    content.toggleClass(collapsedTodoCard.parentNode, 'expanded-todo-card');
-    content.toggleClass(collapsedTodoCard.parentNode.nextSibling, 'show-todo-card');
+    if (collapsedTodoCard) {
+      content.toggleClass(collapsedTodoCard.parentNode, 'expanded-todo-card');
+      content.toggleClass(collapsedTodoCard.parentNode.nextSibling, 'show-todo-card');
+    }
   };
 
   // edit todo: update status and priority, and delete
   const editTodo = (target) => {
     const projects = storage.retrieve();
-    const todoID = target.parent.dataset.id;
-    const todoCategory = target.parent.dataset.category;
+    const todoID = target.dataset.id; // or implement via target.parent?
+    const todoCategory = target.dataset.category; // or implement via target.parent?
     const project = projects.find(project => project.projectName === todoCategory);
     const projectIndex = projects.indexOf(project);
     const todo = project.list.find(todo => todo.id === todoID);

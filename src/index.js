@@ -1,48 +1,43 @@
 import './assets/css/style.css';
 import content from './content';
-import UI from './ui';
+import ui from './ui';
 
-content().staticPage();
-content().todoForm();
-content().projectForm();
-
-document.addEventListener('DOMContentLoaded', UI.render);
+content.staticPage();
+content.todoForm();
+content.projectForm();
 
 const viewProjectFormBtn = document.querySelector('.createProjectBtn');
 const viewTodoFormBtn = document.querySelector('.createTodoBtn');
 const projectForm = document.querySelector('.project-form');
 const todoForm = document.querySelector('.todo-form');
-// const projectColumn = document.querySelector('#project-column'); check id/class in content
-// const todoColumn = document.querySelector('.todo-column'); check id or class in content
+const projectColumn = document.querySelector('.project-column');
+const todoColumn = document.querySelector('.todo-column');
 
-viewProjectFormBtn.addEventListener('click', UI.viewProjectForm);
-viewTodoFormBtn.addEventListener('click', UI.viewTodoForm);
-projectForm.addEventListener('submit', UI.createProject);
-todoForm.addEventListener('submit', UI.createTodo);
+document.addEventListener('DOMContentLoaded', ui.render);
 
-// projectColumn.addEventListener('click', (e) => {
-//   // console.log(e.target.textContent);
-//   UI.showProjectList(e.target.textContent);
-// });
+viewProjectFormBtn.addEventListener('click', ui.viewProjectForm);
+viewTodoFormBtn.addEventListener('click', ui.viewTodoForm);
+projectForm.addEventListener('submit', ui.createProject);
+todoForm.addEventListener('submit', ui.createTodo);
 
-// todoColumn.addEventListener('click', (e) => {
-//   // console.log(e.target);
-//   // console.log(e.currentTarget);
-//   // const short = e.target.textContent;
-//   // // console.log((short === 'high' || short === 'low' || short === 'Complete' || short === 'Incomplete'));
+projectColumn.addEventListener('click', e => {
+  ui.showProjectList(e.target.textContent);
+});
 
-//   // if (short !== 'High' || short !== 'Low' || short !== 'Complete' || short !== 'Incomplete' || short !== 'Delete') {
-//   // }
+todoColumn.addEventListener('click', e => {
+  const short = e.target.textContent;
 
-//   UI.expandTodo(e.target.dataset.id);
-// });
+  if (short !== 'High' && short !== 'Low' && short !== 'Complete' && short !== 'Incomplete' && short !== 'Delete'
+      && short !== null) {
+    ui.expandTodo(e.target.dataset.id);
+  }
+});
 
-// todoColumn.addEventListener('click', (e) => {
-//   const short = e.target.textContent;
-//   // console.log((short === 'high' || short === 'low' || short === 'Complete' || short === 'Incomplete'));
+todoColumn.addEventListener('click', e => {
+  const short = e.target.textContent;
 
-//   if (short === 'High' || short === 'Low' || short === 'Complete' || short === 'Incomplete' || short === 'Delete') {
-//     UI.editTodo(e.target);
-//   }
-//   // console.log(short);
-// });
+  if ((short === 'High' || short === 'Low' || short === 'Complete' || short === 'Incomplete' || short === 'Delete')
+  && (e.target !== null)) {
+    ui.editTodo(e.target);
+  }
+});
