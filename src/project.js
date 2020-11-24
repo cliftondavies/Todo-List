@@ -14,21 +14,16 @@ const Project = class {
     return categories;
   }
 
-  // add/save new todo but no update
-  // addTodo(todo) {
-  //   return this.list.push(todo);
-  // }
-
-  // save (add/update) todo item to a project's list
+  // update a project list with a todo item
   saveTodo = (todo, index = null) => {
-    if (index) {
+    if (index || index === 0) {
       this.list[index] = todo;
     } else {
       this.list.push(todo);
     }
   }
 
-  // remove todo from a oroject's list
+  // remove todo from a project's list
   deleteTodo = (todoIndex) => {
     this.list.splice(todoIndex, 1);
   }
