@@ -9,12 +9,12 @@ const Todo = class {
     this.id = Date.now().toString();
   }
 
-  // toggleCompleteStatus(){}
+  // toggle todo completion status
   updateStatus = () => {
     this.completed = (this.completed === 'Complete') ? 'Incomplete' : 'Complete';
   }
 
-  // changePriority(){}
+  // change todo priority
   updatePriority = () => {
     this.priority = (this.priority === 'Low') ? 'High' : 'Low';
   }

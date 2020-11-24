@@ -9,20 +9,15 @@ const content = (() => {
     return htmlElement;
   };
 
-  // const overallWrapper = document.querySelector('.overall-wrapper');
-  // const mainWrapper = document.querySelector('.main-wrapper');
   const overallWrapper = createHTMLTag('div', 'overall-wrapper');
   const mainWrapper = createHTMLTag('main', 'main-wrapper');
-  // overallWrapper.appendChild(mainWrapper);
+
   document.body.appendChild(overallWrapper);
 
   const staticPage = () => {
-    // const overallWrapper = createHTMLTag('div', 'overall-wrapper');
     const createForms = createHTMLTag('section', 'create-forms');
-    // add button type attribute to all buttons outside forms
     const createProjectBtn = createHTMLTag('button', 'createProjectBtn', '', 'Add a Project');
     const createTodoBtn = createHTMLTag('button', 'createTodoBtn', '', 'Add a Todo');
-    // const mainWrapper = createHTMLTag('main', 'main-wrapper');
     const projectColumn = createHTMLTag('section', 'project-column');
     const todoColumn = createHTMLTag('section', 'todo-column');
 
@@ -35,7 +30,6 @@ const content = (() => {
     mainWrapper.appendChild(todoColumn);
     overallWrapper.appendChild(createForms);
     overallWrapper.appendChild(mainWrapper);
-    // document.body.appendChild(overallWrapper);
   };
 
   const projectForm = () => {
@@ -46,7 +40,6 @@ const content = (() => {
     const projectSubmit = createHTMLTag('input', 'submit-project');
 
     projectLabel.setAttribute('for', 'project-name');
-    // projectName.setAttribute('type', 'text');
     projectName.setAttribute('name', 'project-name');
     projectSubmit.setAttribute('type', 'submit');
     projectSubmit.setAttribute('value', 'Create Project');
@@ -66,7 +59,8 @@ const content = (() => {
     selectInput.appendChild(option);
   };
 
-  const todoForm = () => { // to refactor
+  // To Refactor
+  const todoForm = () => {
     const formWrapper = createHTMLTag('div', 'todo-form-wrapper-hidden');
     const todoForm = createHTMLTag('form', 'todo-form');
     const titleLabel = createHTMLTag('label', 'todo-label', '', 'Todo Title');
@@ -85,10 +79,8 @@ const content = (() => {
     const todoSubmit = createHTMLTag('input', 'submit-todo');
 
     titleLabel.setAttribute('for', 'todo-title');
-    // todoTitle.setAttribute('type', 'text');
     todoTitle.setAttribute('name', 'todo-title');
     descriptionLabel.setAttribute('for', 'todo-description');
-    // todoDescription.setAttribute('type', 'text');
     todoDescription.setAttribute('name', 'todo-description');
     dueDateLabel.setAttribute('for', 'todo-duedate');
     todoDueDate.setAttribute('type', 'date');
@@ -125,13 +117,13 @@ const content = (() => {
     overallWrapper.insertBefore(formWrapper, mainWrapper);
   };
 
-  // create project card
+  // create project card. [Title project heading]
   const createProjectCard = (project) => {
     const projectColumn = document.querySelector('.project-column');
     const projectCard = createHTMLTag('div', 'project-card');
     const projectHeading = createHTMLTag('h3', 'project-heading', '', project.projectName);
-    // .charAt(0).toUpperCase() + project.projectName.slice(1); Titlecase heading
-    // const deleteBtn = createHTMLTag('button', 'delete-project-btn', '', 'Delete'); // textContent might return this too
+    // textContent might return this too
+    // const deleteBtn = createHTMLTag('button', 'delete-project-btn', '', 'Delete');
 
     // deleteBtn.setAttribute('type', 'button');
 
@@ -143,62 +135,47 @@ const content = (() => {
   // create wrapper for each list within todo column
   const createTodosWrapper = (projectNameAsID) => {
     const todoColumn = document.querySelector('.todo-column');
-    const todosWrapper = createHTMLTag('div', 'todos-wrapper-hidden', projectNameAsID); // show todo wrapper class when project category is clicked
+    const todosWrapper = createHTMLTag('div', 'todos-wrapper-hidden', projectNameAsID);
 
     todoColumn.appendChild(todosWrapper);
   };
 
-  // create collapsed todo card
+  // create collapsed todo card. [change span implementation to h3]
   const collapsedTodoCard = (todo) => {
-    // const todoWrapper = document.querySelector('.todos-wrapper-hidden');
     const todoCard = createHTMLTag('div', 'collapsed-todo-card');
-    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.Title); // change span implementation to h3
+    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.title);
     const todoDate = createHTMLTag('span', 'todo-date', '', todo.dueDate);
-    const deleteTodo = createHTMLTag('button', 'delete-todo-btn', '', 'Delete');
+    // const deleteTodo = createHTMLTag('button', 'delete-todo-btn', '', 'Delete');
 
     todoCard.setAttribute('data-id', todo.id);
-    // todoCard.setAttribute('data-category', todo.category);
-
     todoTitle.setAttribute('data-id', todo.id);
-    // todoTitle.setAttribute('data-category', todo.category);
-
     todoDate.setAttribute('data-id', todo.id);
-    // todoDate.setAttribute('data-category', todo.category);
 
-    deleteTodo.setAttribute('type', 'button');
-    deleteTodo.setAttribute('data-id', todo.id);
-    deleteTodo.setAttribute('data-category', todo.category);
+    // deleteTodo.setAttribute('type', 'button');
+    // deleteTodo.setAttribute('data-id', todo.id);
+    // deleteTodo.setAttribute('data-category', todo.category);
 
     todoCard.appendChild(todoTitle);
     todoCard.appendChild(todoDate);
-    todoCard.appendChild(deleteTodo);
-    // todoWrapper.appendChild(todoCard);
+    // todoCard.appendChild(deleteTodo);
 
     return todoCard;
   };
 
   // create expanded todo card
   const expandedTodoCard = (todo) => {
-    // const todoWrapper = document.querySelector('.todos-wrapper-hidden');
     const todoCard = createHTMLTag('div', 'expanded-todo-card');
-    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.Title);
-    const todoDescription = createHTMLTag('p', 'todo-description', todo.description);
+    const todoTitle = createHTMLTag('h3', 'todo-title', '', todo.title);
+    const todoDescription = createHTMLTag('p', 'todo-description', '', todo.description);
     const todoDate = createHTMLTag('span', 'todo-date', '', todo.dueDate);
     const todoPriority = createHTMLTag('button', 'todo-priority', '', todo.priority);
     const todoCompleted = createHTMLTag('button', 'todo-completed', '', todo.completed);
     const deleteTodo = createHTMLTag('button', 'delete-todo-btn', '', 'Delete');
 
     todoCard.setAttribute('data-id', todo.id);
-    // todoCard.setAttribute('data-category', todo.category);
-
     todoTitle.setAttribute('data-id', todo.id);
-    // todoTitle.setAttribute('data-category', todo.category);
-
     todoDescription.setAttribute('data-id', todo.id);
-    // todoDescription.setAttribute('data-category', todo.category);
-
     todoDate.setAttribute('data-id', todo.id);
-    // todoDate.setAttribute('data-category', todo.category);
 
     todoPriority.setAttribute('type', 'button');
     todoPriority.setAttribute('data-id', todo.id);
@@ -218,7 +195,6 @@ const content = (() => {
     todoCard.appendChild(todoPriority);
     todoCard.appendChild(todoCompleted);
     todoCard.appendChild(deleteTodo);
-    // todoWrapper.appendChild(todoCard);
 
     return todoCard;
   };
@@ -246,6 +222,7 @@ const content = (() => {
 
   // set project colour on creation (nice to have)
   // change todo colour based on priority (nice to have)
+  // implement method to append elements.
 
   return {
     staticPage,
