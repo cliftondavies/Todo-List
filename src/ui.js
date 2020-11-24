@@ -4,7 +4,7 @@ import Project from './project';
 import Todo from './todo';
 
 const ui = (() => {
-  // render default project with all the todos in storage & render projects and todos by category
+  // render projects and todos by project category
   const render = () => {
     const projects = storage.retrieve();
     const categorySelect = document.querySelector('#todo-category');
@@ -15,16 +15,24 @@ const ui = (() => {
 
     projects.forEach(project => {
       content.createProjectCard(project);
+
       const todosWrapperID = project.projectName.split(' ').join('-');
+
       content.createTodosWrapper(todosWrapperID);
+
       const todosWrapper = document.querySelector(`#${todosWrapperID}`);
 
       if (project.list.length > 0) {
-
         project.list.forEach(todo => {
-          todosWrapper.appendChild(content.collapsedTodoCard(todo)); // call from content module
-          todosWrapper.appendChild(content.expandedTodoCard(todo)); // call from content module
-          // show todo wrapper for project in the general category.
+          // call 28 & 29 from content module
+          todosWrapper.appendChild(content.collapsedTodoCard(todo));
+          todosWrapper.appendChild(content.expandedTodoCard(todo));
+
+          if (project.projectName === 'general') {
+            const defaultWrapper = document.querySelector('#general');
+
+            content.toggleClass(defaultWrapper, 'show-todo-wrapper');
+          }
         });
       }
     });
@@ -34,7 +42,6 @@ const ui = (() => {
   const viewProjectForm = () => {
     const projectFormWrap = document.querySelector('.project-form-wrapper-hidden');
 
-    // projectFormWrap.classList.toggle('show-project-form');
     content.toggleClass(projectFormWrap, 'show-project-form');
   };
 
@@ -42,7 +49,6 @@ const ui = (() => {
   const viewTodoForm = () => {
     const todoFormWrap = document.querySelector('.todo-form-wrapper-hidden');
 
-    // todoFormWrap.classList.toggle('show-todo-form');
     content.toggleClass(todoFormWrap, 'show-todo-form');
   };
 
@@ -54,10 +60,12 @@ const ui = (() => {
 
     storage.save(project);
     content.createProjectCard(project);
+
     const projects = storage.retrieve();
-    content.addSelectOption(categorySelect, projects);
     const todosWrapperID = projectName.toLowerCase().split(' ').join('-');
-    content.createListWrapper(todosWrapperID);
+
+    content.addSelectOption(categorySelect, projects);
+    content.createTodosWrapper(todosWrapperID);
     event.preventDefault();
   };
 
@@ -71,11 +79,17 @@ const ui = (() => {
     const todo = new Todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoCategory);
 
     storage.save(todo);
+
     const todosWrapperID = todoCategory.toLowerCase().split(' ').join('-');
     const todosWrapper = document.querySelector(`#${todosWrapperID}`);
+
+    // call 87 & 88 from content module
     todosWrapper.appendChild(content.collapsedTodoCard(todo));
     todosWrapper.appendChild(content.expandedTodoCard(todo));
-    // todosWrapper.classList.toggle('show-todo-wrapper');
+
+    const elementsOnShow = document.getElementsByClassName('show-todo-wrapper');
+
+    Array.from(elementsOnShow).forEach(element => { content.toggleClass(element, 'show-todo-wrapper'); });
     content.toggleClass(todosWrapper, 'show-todo-wrapper');
     event.preventDefault();
   };
@@ -84,76 +98,62 @@ const ui = (() => {
   const showProjectList = (projectHeading) => {
     const todosWrapperID = projectHeading.toLowerCase().split(' ').join('-');
     const todosWrapper = document.querySelector(`#${todosWrapperID}`);
-    // todosWrapper.classList.toggle('show-todo-wrapper');
     const elementsOnShow = document.getElementsByClassName('show-todo-wrapper');
 
     Array.from(elementsOnShow).forEach(element => { content.toggleClass(element, 'show-todo-wrapper'); });
+
     if (todosWrapper) { content.toggleClass(todosWrapper, 'show-todo-wrapper'); }
   };
 
-  // expand todo
+  // expand todo. [select ctc with same id]
   const expandTodo = (dataID) => {
-    const collapsedTodoCard = document.querySelector(`span[data-id="${dataID}"]`); // select ctc with same id
+    const collapsedTodoCard = document.querySelector(`span[data-id="${dataID}"]`);
 
-    // collapsedTodoCard.parentNode.classList.toggle('expanded-todo-card');
-    // collapsedTodoCard.parentNode.nextSibling.classList.toggle('show-todo-card');
     if (collapsedTodoCard) {
       content.toggleClass(collapsedTodoCard.parentNode, 'expanded-todo-card');
       content.toggleClass(collapsedTodoCard.parentNode.nextSibling, 'show-todo-card');
     }
   };
 
-  // edit todo: update status and priority, and delete
+  // edit todo: update status and priority, and delete. [send parent as target]
   const editTodo = (target) => {
     const projects = storage.retrieve();
-    const todoID = target.dataset.id; // or implement via target.parent?
-    const todoCategory = target.dataset.category; // or implement via target.parent?
+    const todoID = target.dataset.id;
+    const todoCategory = target.dataset.category;
     const project = projects.find(project => project.projectName === todoCategory);
     const projectIndex = projects.indexOf(project);
     const todo = project.list.find(todo => todo.id === todoID);
     const todoIndex = project.list.indexOf(todo);
+    const projectCopy = Object.assign(new Project(), project);
+    const todoCopy = Object.assign(new Todo(), todo);
 
     if (target.textContent === 'Complete') {
-      // target.textContent = 'Incomplete'; // update target content
-      // todo.completed = 'Incomplete'; // update todo status property - todo.updateStatus()
-      // project.list[todoIndex] = todo; // save todo to project list
       content.updateTargetContent(target);
-      todo.updateStatus();
+      todoCopy.updateStatus();
     } else if (target.textContent === 'Incomplete') {
-      // target.textContent = 'Complete'; // update target content
-      // todo.completed = 'Complete'; // update todo status property - todo.updateStatus()
-      // project.list[todoIndex] = todo; // save todo to project list
       content.updateTargetContent(target);
-      todo.updateStatus();
+      todoCopy.updateStatus();
     } else if (target.textContent === 'High') {
-      // target.textContent = 'Low'; // update target content
-      // todo.priority = 'Low'; // update todo priority property - todo.updatePriority()
-      // project.list[todoIndex] = todo; // save todo to project list
       content.updateTargetContent(target);
-      todo.updatePriority();
+      todoCopy.updatePriority();
     } else if (target.textContent === 'Low') {
-      // target.textContent = 'High'; // update target content
-      // todo.priority = 'High'; // update todo priority property - todo.updatePriority()
-      // project.list[todoIndex] = todo; // save todo to project list
       content.updateTargetContent(target);
-      todo.updatePriority();
+      todoCopy.updatePriority();
     } else if (target.textContent === 'Delete') {
-      // project.list.splice(todoIndex, 1); // remove todo from project list - project.deleteTodo(todo);
-      // if (target) { target.parentNode.previousSibling.remove(); } // remove collapsed card
-      // if (target) { target.parentNode.remove(); } // remove expanded card
-      project.deleteTodo(todoIndex);
-      if (target) { content.removeTodoCards(target); } // remove both collapsed and expanded cards
+      projectCopy.deleteTodo(todoIndex);
+
+      if (target) { content.removeTodoCards(target); }
     }
 
-    if (target.textContent !== 'Delete') { project.saveTodo(todo, todoIndex); } // save todo to project list
+    if (target.textContent !== 'Delete') { projectCopy.saveTodo(todoCopy, todoIndex); }
 
-    storage.save(project, projectIndex); // save project to local storage
+    storage.save(projectCopy, projectIndex);
   };
 
-  // delete project
+  // delete project. [format heading]
   const deleteProject = () => {
     const projects = storage.retrieve();
-    const projectCategory = document.querySelector('.project-heading').textContent; // to format heading
+    const projectCategory = document.querySelector('.project-heading').textContent;
     const project = projects.find(project => project.projectName === projectCategory);
     const index = projects.indexOf(project);
 
