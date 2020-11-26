@@ -1,0 +1,47 @@
+* {
+  border: 1px solid rgb(60, 255, 0);
+}
+
+body { background-color: rgb(224, 77, 32); }
+
+.main-wrapper {
+  display: flex;
+}
+
+.project-form-wrapper-hidden {
+  display: none;
+}
+
+.show-project-form {
+  display: block;
+}
+
+.todo-form-wrapper-hidden {
+  display: none;
+}
+
+.show-todo-form {
+  display: block;
+}
+
+.todos-wrapper-hidden {
+  display: none;
+}
+
+.show-todo-wrapper {
+  display: block;
+}
+
+.expanded-todo-card {
+  border: 3px solid rgb(28, 17, 170);
+  display: none;
+}
+
+.collapsed-todo-card {
+  border: 3px solid rgb(0, 0, 0);
+  display: block;
+}
+
+.show-todo-card {
+  display: block;
+}
