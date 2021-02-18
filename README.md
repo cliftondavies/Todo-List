@@ -12,7 +12,7 @@
 
 ## :tv: Media
 
-[Live Demo Link](https://rawcdn.githack.com/cliftondavies/Todo-List/64e62abd4265cf2951673215c78c9c78b9a4c6be/dist/index.html)
+[Live Demo Link](https://todu-least.netlify.app/)
 
 ## :toolbox: Tools & Technologies Used
 
